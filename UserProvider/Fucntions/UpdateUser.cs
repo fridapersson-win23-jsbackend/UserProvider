@@ -26,31 +26,31 @@ public class UpdateUser
     }
 
     [Function("UpdateUser")]
-    public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "post")] HttpRequest req)
+    public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "put", Route = "updateuser/{id}")] HttpRequest req, string id)
     {
         try
         {
             var requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             if(requestBody != null)
             {
-                var userUpdateReq = JsonConvert.DeserializeObject<UserUpdateModel>(requestBody);
+                var data = JsonConvert.DeserializeObject<UserUpdateModel>(requestBody);
 
-                var user = await _userManager.FindByEmailAsync(userUpdateReq!.Email!);
+                var user = await _userManager.FindByEmailAsync(data!.Email!);
                 if (user != null)
                 {
-                    user.FirstName = userUpdateReq.FirstName;
-                    user.LastName = userUpdateReq.LastName;
-                    user.Email = userUpdateReq.Email;
-                    user.Biography = userUpdateReq.Biography;
-                    user.PhoneNumber = userUpdateReq.PhoneNumber;
+                    user.FirstName = data.FirstName;
+                    user.LastName = data.LastName;
+                    user.Email = data.Email;
+                    user.Biography = data.Biography;
+                    user.PhoneNumber = data.PhoneNumber;
 
-                    if (userUpdateReq.Address != null)
+                    if (data.Address != null)
                     {
                        var existingAddress = await _context.Addresses.FirstOrDefaultAsync(x =>
-                       x.AddressLine_1 == userUpdateReq.Address.AddressLine_1 &&
-                       x.AddressLine_2 == userUpdateReq.Address.AddressLine_2 &&
-                       x.PostalCode == userUpdateReq.Address.PostalCode &&
-                       x.City == userUpdateReq.Address.City);
+                       x.AddressLine_1 == data.Address.AddressLine_1 &&
+                       x.AddressLine_2 == data.Address.AddressLine_2 &&
+                       x.PostalCode == data.Address.PostalCode &&
+                       x.City == data.Address.City);
 
                         if(existingAddress != null)
                         {
