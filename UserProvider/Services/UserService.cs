@@ -56,7 +56,7 @@ public class UserService
             var users = await context.Users.Include(x => x.Address).ToListAsync();
             if(users != null)
             {
-                return users;
+                //return users;
             }
 
 
