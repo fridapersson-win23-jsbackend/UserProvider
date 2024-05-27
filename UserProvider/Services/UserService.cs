@@ -45,28 +45,28 @@ public class UserService
         return null!;
     }
 
-    public async Task<ApplicationUser> GetAllUserAsync()
-    {
-        try
-        {
-            using var scope = _scopeFactory.CreateScope();
-            var context = scope.ServiceProvider.GetRequiredService<DataContext>();
-            //var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+    //public async Task<ApplicationUser> GetAllUserAsync()
+    //{
+    //    try
+    //    {
+    //        using var scope = _scopeFactory.CreateScope();
+    //        var context = scope.ServiceProvider.GetRequiredService<DataContext>();
+    //        //var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
-            var users = await context.Users.Include(x => x.Address).ToListAsync();
-            if(users != null)
-            {
-                //return users;
-            }
+    //        var users = await context.Users.Include(x => x.Address).ToListAsync();
+    //        if(users != null)
+    //        {
+    //            return users;
+    //        }
 
 
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"ERROR: {ex.Message}");
-        }
-        return null!;
-    }
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        Console.WriteLine($"ERROR: {ex.Message}");
+    //    }
+    //    return null!;
+    //}
 
 
     public async Task<bool> UpdateUserAsync(UserUpdateModel userUpdate)
@@ -130,4 +130,6 @@ public class UserService
         }
         return false;
     }
+
+
 }
